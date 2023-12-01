@@ -1,3 +1,4 @@
+import 'package:studnet_calender_app/models/course.dart';
 import 'package:studnet_calender_app/models/schedule.dart';
 
 class Student {
@@ -6,10 +7,15 @@ class Student {
   final String email;
   final String password;
   final Schedule stSch;
+  final Set<Course> courses;
   Student(
       {required this.studentId,
       required this.name,
       required this.email,
       required this.password,
-      required this.stSch});
+      required this.stSch,
+      required this.courses});
+  void addCourse(Course course) {
+    courses.add(course);
+  }
 }
