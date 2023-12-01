@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:studnet_calender_app/models/student.dart';
 import 'package:calendar_view/calendar_view.dart';
+import 'package:studnet_calender_app/views/week.dart';
 
 class MainPage extends StatefulWidget {
   final Student user;
@@ -23,9 +24,9 @@ class _MainPageState extends State<MainPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Center(child: Text("Week Planner"))),
-      drawer: makeDrawer(context, widget.user.name, widget.user.email),
-    );
+        appBar: AppBar(title: const Center(child: Text("Week Planner"))),
+        drawer: makeDrawer(context, widget.user.name, widget.user.email),
+        body: WeekWidget(student: widget.user));
   }
 
   Drawer makeDrawer(BuildContext context, String name, String email) {
