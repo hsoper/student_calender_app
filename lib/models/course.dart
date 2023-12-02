@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:studnet_calender_app/models/homework.dart';
 
 class Course {
@@ -9,6 +10,8 @@ class Course {
   final DateTime end;
   final String subject;
   final Set<Homework> homework;
+  final TimeOfDay classStart;
+  final TimeOfDay classEnd;
   Course(
       {required this.courseId,
       required this.name,
@@ -17,7 +20,9 @@ class Course {
       required this.end,
       required this.start,
       required this.subject,
-      required this.homework});
+      required this.homework,
+      required this.classStart,
+      required this.classEnd});
 
   void addHomework(Homework work) {
     homework.add(work);

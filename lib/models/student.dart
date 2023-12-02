@@ -18,4 +18,8 @@ class Student {
   void addCourse(Course course) {
     courses.add(course);
   }
+
+  void deleteCourse(Course course) {
+    courses.remove(course);
+  }
 }
