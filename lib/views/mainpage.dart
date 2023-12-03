@@ -1,10 +1,10 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
-import 'package:studnet_calender_app/models/schedulentry.dart';
-import 'package:studnet_calender_app/models/student.dart';
-import 'package:studnet_calender_app/views/blackboard.dart';
-import 'package:studnet_calender_app/views/editentry.dart';
-import 'package:studnet_calender_app/views/week.dart';
+import 'package:student_calender_app/models/schedulentry.dart';
+import 'package:student_calender_app/models/student.dart';
+import 'package:student_calender_app/views/blackboard.dart';
+import 'package:student_calender_app/views/editentry.dart';
+import 'package:student_calender_app/views/week.dart';
 
 class MainPage extends StatefulWidget {
   final Student user;

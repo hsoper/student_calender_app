@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:studnet_calender_app/models/homework.dart';
+import 'package:student_calender_app/models/homework.dart';
 
 class Course {
   final int courseId;

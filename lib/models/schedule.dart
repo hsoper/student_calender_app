@@ -1,4 +1,4 @@
-import 'package:studnet_calender_app/models/schedulentry.dart';
+import 'package:student_calender_app/models/schedulentry.dart';
 
 class Schedule {
   final int _schID;

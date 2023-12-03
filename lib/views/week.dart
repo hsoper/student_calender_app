@@ -1,11 +1,11 @@
 import 'package:calendar_view/calendar_view.dart';
 import 'package:flutter/material.dart';
-import 'package:studnet_calender_app/models/course.dart';
-import 'package:studnet_calender_app/models/homework.dart';
-import 'package:studnet_calender_app/models/schedulentry.dart';
-import 'package:studnet_calender_app/models/student.dart';
-import 'package:studnet_calender_app/views/course.dart';
-import 'package:studnet_calender_app/views/editentry.dart';
+import 'package:student_calender_app/models/course.dart';
+import 'package:student_calender_app/models/homework.dart';
+import 'package:student_calender_app/models/schedulentry.dart';
+import 'package:student_calender_app/models/student.dart';
+import 'package:student_calender_app/views/course.dart';
+import 'package:student_calender_app/views/editentry.dart';
 
 class WeekWidget extends StatefulWidget {
   final Student student;

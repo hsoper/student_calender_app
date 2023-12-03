@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:studnet_calender_app/models/course.dart';
-import 'package:studnet_calender_app/models/homework.dart';
-import 'package:studnet_calender_app/models/student.dart';
+import 'package:student_calender_app/models/course.dart';
+import 'package:student_calender_app/models/homework.dart';
+import 'package:student_calender_app/models/student.dart';
 
 import 'course.dart';
 

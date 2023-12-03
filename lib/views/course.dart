@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:studnet_calender_app/models/course.dart';
-import 'package:studnet_calender_app/models/homework.dart';
-import 'package:studnet_calender_app/views/blackboard.dart';
-import 'package:studnet_calender_app/views/editentry.dart';
+import 'package:student_calender_app/models/course.dart';
+import 'package:student_calender_app/models/homework.dart';
+import 'package:student_calender_app/views/blackboard.dart';
+import 'package:student_calender_app/views/editentry.dart';
 
 // main page which displays course information
 class CourseView extends StatelessWidget {
