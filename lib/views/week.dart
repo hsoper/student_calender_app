@@ -1,8 +1,11 @@
 import 'package:calendar_view/calendar_view.dart';
 import 'package:flutter/material.dart';
+import 'package:studnet_calender_app/models/course.dart';
+import 'package:studnet_calender_app/models/homework.dart';
 import 'package:studnet_calender_app/models/schedulentry.dart';
 import 'package:studnet_calender_app/models/student.dart';
-import 'package:studnet_calender_app/views/editEntry.dart';
+import 'package:studnet_calender_app/views/course.dart';
+import 'package:studnet_calender_app/views/editentry.dart';
 
 class WeekWidget extends StatefulWidget {
   final Student student;
@@ -32,6 +35,7 @@ class _WeekWidgetState extends State<WeekWidget> {
   Widget build(BuildContext context) {
     return Column(
       children: [
+        // Builds the first row of the app
         Row(
           children: List.generate(8, (index) {
             if (index == 0) {
@@ -44,9 +48,11 @@ class _WeekWidgetState extends State<WeekWidget> {
             );
           }),
         ),
+        // Sets up the scrollable portion of the app
         SizedBox(
           height: MediaQuery.sizeOf(context).height - 112,
           child: ListView(
+            controller: ScrollController(initialScrollOffset: 8 * 120),
             children: [
               Row(
                 children: List.generate(8, (index) {
@@ -97,6 +103,31 @@ class ScheduleSpaceWidget extends StatelessWidget {
         ));
       }
     }
+    for (Course course in student.courses) {
+      if (course.weekdays.contains(day.weekday - 1) &&
+          course.start.compareTo(day) <= 0 &&
+          course.end.compareTo(day) >= 0) {
+        double size =
+            (course.classEnd.hour * 120 + course.classEnd.minute * 2) -
+                (course.classStart.hour * 120 + course.classStart.minute * 2);
+        temp.add(CourseEntryWidget(
+          entry: course,
+          start: (course.classStart.hour * 120 + course.classStart.minute * 2),
+          size: size,
+        ));
+      }
+      for (Homework work in course.homework) {
+        if (work.dueDate.compareWithoutTime(day)) {
+          temp.add(CourseEntryWidget(
+            entry: course,
+            size: 20,
+            start: work.dueDate.hour * 120 + work.dueDate.minute * 2,
+            homework: work,
+          ));
+        }
+      }
+    }
+
     return temp;
   }
 
@@ -115,6 +146,8 @@ class ScheduleSpaceWidget extends StatelessWidget {
   }
 }
 
+// This will build a display of the Entry with the entry's name in the display.
+// It is a yellow block which users can click to see details or edit.
 class EntryWidget extends StatelessWidget {
   final ScheduleEntry entry;
   final Student student;
@@ -147,6 +180,50 @@ class EntryWidget extends StatelessWidget {
             height: size,
             width: (MediaQuery.sizeOf(context).width - 60) / 7,
             color: Colors.yellow,
+            child: Center(
+                child: Text(
+              entry.name,
+              style: const TextStyle(
+                  color: Colors.black, fontWeight: FontWeight.bold),
+            )),
+          )),
+    );
+  }
+}
+
+class CourseEntryWidget extends StatelessWidget {
+  final Course entry;
+  final double start;
+  final double size;
+  final Homework? homework;
+  const CourseEntryWidget(
+      {super.key,
+      required this.entry,
+      required this.size,
+      required this.start,
+      this.homework});
+
+  @override
+  Widget build(BuildContext context) {
+    return Positioned(
+      top: start,
+      left: 0,
+      child: InkWell(
+          onTap: () {
+            Navigator.of(context).push(MaterialPageRoute(
+              builder: (context) {
+                if (homework == null) {
+                  return CourseView(course: entry);
+                } else {
+                  return HomeworkView(homework: homework!);
+                }
+              },
+            ));
+          },
+          child: Container(
+            height: size,
+            width: (MediaQuery.sizeOf(context).width - 60) / 7,
+            color: Colors.green[300],
             child: Center(
                 child: Text(
               entry.name,
@@ -212,10 +289,12 @@ class DayWidget extends StatelessWidget {
   }
 }
 
+// runs the firstDayOfWeek() function which returns the first day of the week correspoding to the curDay input
 DateTime getWeekStart(DateTime curDay) {
   return curDay.firstDayOfWeek();
 }
 
+// converts a [0..23] index into the 12 hour clock
 String timeDisplay(int index) {
   if (index == 0) {
     return "12 AM";
@@ -226,6 +305,7 @@ String timeDisplay(int index) {
   }
 }
 
+// builds the First column which just displaying the time of day starting at 12am and ending at 11pm
 class TimeColumn extends StatelessWidget {
   const TimeColumn({
     super.key,

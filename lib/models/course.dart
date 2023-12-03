@@ -12,6 +12,7 @@ class Course {
   final Set<Homework> homework;
   final TimeOfDay classStart;
   final TimeOfDay classEnd;
+  final Set<int> weekdays;
   Course(
       {required this.courseId,
       required this.name,
@@ -22,7 +23,8 @@ class Course {
       required this.subject,
       required this.homework,
       required this.classStart,
-      required this.classEnd});
+      required this.classEnd,
+      required this.weekdays});
 
   void addHomework(Homework work) {
     homework.add(work);

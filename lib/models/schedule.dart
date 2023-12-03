@@ -23,6 +23,10 @@ class Schedule {
     _entries.add(entry);
   }
 
+  void deleteEntry(ScheduleEntry entry) {
+    _entries.remove(entry);
+  }
+
   void changeName(String newName) {
     _name = newName;
   }

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:studnet_calender_app/models/schedule.dart';
 import 'package:studnet_calender_app/models/schedulentry.dart';
 import 'package:studnet_calender_app/models/student.dart';
-import 'package:studnet_calender_app/views/mainPage.dart';
+import 'package:studnet_calender_app/views/mainpage.dart';
 
 void main() async {
   // Run the app and pass in the SettingsController. The app listens to the

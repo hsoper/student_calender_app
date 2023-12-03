@@ -2,7 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:studnet_calender_app/models/course.dart';
 import 'package:studnet_calender_app/models/homework.dart';
 import 'package:studnet_calender_app/models/student.dart';
-import 'package:studnet_calender_app/views/mainpage.dart';
+
+import 'course.dart';
+
+List<String> days = [
+  "Monday",
+  "Tuesday",
+  "Wednesday",
+  "Thursday",
+  "Friday",
+  "Saturaday",
+  "Sunday"
+];
 
 class Blackboard extends StatefulWidget {
   final Student student;
@@ -18,20 +29,22 @@ class _BlackboardState extends State<Blackboard> {
   @override
   void initState() {
     super.initState();
+
     courses.add(Course(
         courseId: 1,
+        weekdays: {0, 2, 4},
         name: "CS-450",
         professor: 'Micheal',
         description: "Systems Programing",
-        end: DateTime(2023, 8, 20),
-        start: DateTime(2023, 12, 10),
+        start: DateTime(2023, 8, 20),
+        end: DateTime(2023, 12, 10),
         subject: "Computer Science",
         homework: {
           Homework(
               homeworkID: 001,
               courseID: 001,
               description: "Make a simple Cache",
-              dueDate: DateTime(2023, 10, 23),
+              dueDate: DateTime(2023, 12, 3, 12),
               name: "Cache Lab")
         },
         classStart: const TimeOfDay(hour: 11, minute: 15),
@@ -44,18 +57,9 @@ class _BlackboardState extends State<Blackboard> {
 
   Row courseWidget(BuildContext context, Course course) {
     return Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-      Column(
-        children: [
-          Card(
-            margin: const EdgeInsets.all(20),
-            child: SizedBox(
-              height: 50,
-              child: Center(
-                child: Text(course.name),
-              ),
-            ),
-          )
-        ],
+      CourseWidget(
+        course: course,
+        fontSize: 14,
       ),
       widget.student.courses.contains(course)
           ? Column(
@@ -64,8 +68,9 @@ class _BlackboardState extends State<Blackboard> {
                 IconButton(
                     onPressed: () {
                       widget.student.deleteCourse(course);
+                      ScaffoldMessenger.of(context).removeCurrentSnackBar();
                       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                          duration: const Duration(seconds: 3),
+                          duration: const Duration(seconds: 2),
                           content: Text(
                               "Course with the course ID: ${course.courseId} deleted")));
                       reload();
@@ -76,8 +81,9 @@ class _BlackboardState extends State<Blackboard> {
           : IconButton(
               onPressed: () {
                 widget.student.addCourse(course);
+                ScaffoldMessenger.of(context).removeCurrentSnackBar();
                 ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                    duration: const Duration(seconds: 3),
+                    duration: const Duration(seconds: 1),
                     content: Text(
                         "Course with the course ID: ${course.courseId} added")));
                 reload();
@@ -92,11 +98,7 @@ class _BlackboardState extends State<Blackboard> {
       appBar: AppBar(
           leading: IconButton(
             onPressed: () {
-              Navigator.of(context).pushReplacement(MaterialPageRoute(
-                builder: (context) {
-                  return MainPage(user: widget.student);
-                },
-              ));
+              Navigator.of(context).pop();
             },
             icon: const Icon(Icons.keyboard_arrow_left),
           ),

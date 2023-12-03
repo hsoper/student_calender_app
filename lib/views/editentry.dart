@@ -39,10 +39,12 @@ class _EditEntryWidgetState extends State<EditEntryWidget> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+          // button to go back to the mainPage
           leading: IconButton(
             onPressed: () {
               Navigator.of(context).pushReplacement(MaterialPageRoute(
-                builder: (context) => MainPage(user: widget.student),
+                builder: (context) =>
+                    MainPage(user: widget.student, day: widget.sEntery.start),
               ));
             },
             icon: const Icon(Icons.keyboard_arrow_left),
@@ -75,30 +77,37 @@ class _EditEntryWidgetState extends State<EditEntryWidget> {
               setTime(context, end, false, start.hour * 60 + start.minute)
             ]),
             const SizedBox(height: 30),
-            TextButton(
-                onPressed: () async {
-                  widget.sEntery.changeName(name.value.text);
-                  widget.sEntery.changeDesc(desc.value.text);
-                  widget.sEntery.changeStart(start);
-                  widget.sEntery.changeEnd(end);
-                  widget.sEntery.changeType(type.value.text);
-                  if (widget.newEntry != null) {
-                    widget.student.stSch.addEntry(widget.sEntery);
-                  }
-                  if (!context.mounted) return;
-                  Navigator.of(context).pushReplacement(MaterialPageRoute(
-                    builder: (context) {
-                      return MainPage(user: widget.student);
-                    },
-                  ));
-                },
-                child: const Text("Save"))
+            widget.newEntry == null
+                ? Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      SaveButton(
+                        widget: widget,
+                        name: name,
+                        desc: desc,
+                        start: start,
+                        end: end,
+                        type: type,
+                      ),
+                      DeleteButton(widget: widget)
+                    ],
+                  )
+                : SaveButton(
+                    widget: widget,
+                    name: name,
+                    desc: desc,
+                    start: start,
+                    end: end,
+                    type: type,
+                  )
           ]),
         ),
       ),
     );
   }
 
+  // Returns a Widget Column with the current day and a button
+  // which sends user to the datePicker.
   Column changeDate(BuildContext context) {
     return Column(
       children: [
@@ -123,6 +132,9 @@ class _EditEntryWidgetState extends State<EditEntryWidget> {
     );
   }
 
+  // builds a widget column with either the start or end time based on the start boolean.
+  // It also contains the button which sends users into the timePicker widget
+  // Changes either the start or end times based on the start boolean
   Column setTime(
       BuildContext context, DateTime time, bool start, int minutesFromOther) {
     return Column(
@@ -141,11 +153,13 @@ class _EditEntryWidgetState extends State<EditEntryWidget> {
             if (!mounted) return;
             if (w == null) return;
             if (w.hour * 60 + w.minute >= minutesFromOther && start) {
+              ScaffoldMessenger.of(context).removeCurrentSnackBar();
               ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                   content: Text(
                       "You cannot set a time which is greater or equal to the end time.")));
               return;
             } else if (w.hour * 60 + w.minute <= minutesFromOther && !start) {
+              ScaffoldMessenger.of(context).removeCurrentSnackBar();
               ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                   content: Text(
                       "You cannot set a time which is less or equal to the start time.")));
@@ -166,6 +180,70 @@ class _EditEntryWidgetState extends State<EditEntryWidget> {
   }
 }
 
+class DeleteButton extends StatelessWidget {
+  const DeleteButton({super.key, required this.widget});
+
+  final EditEntryWidget widget;
+  @override
+  Widget build(BuildContext context) {
+    return TextButton(
+        onPressed: () {
+          widget.student.stSch.deleteEntry(widget.sEntery);
+          Navigator.of(context)
+              .pushReplacement(MaterialPageRoute(builder: (context) {
+            return MainPage(user: widget.student);
+          }));
+        },
+        child: const Text("Delete"));
+  }
+}
+
+class SaveButton extends StatelessWidget {
+  const SaveButton({
+    super.key,
+    required this.widget,
+    required this.name,
+    required this.desc,
+    required this.start,
+    required this.end,
+    required this.type,
+  });
+
+  final EditEntryWidget widget;
+  final TextEditingController name;
+  final TextEditingController desc;
+  final DateTime start;
+  final DateTime end;
+  final TextEditingController type;
+
+  @override
+  Widget build(BuildContext context) {
+    return TextButton(
+        onPressed: () async {
+          widget.sEntery.changeName(name.value.text);
+          widget.sEntery.changeDesc(desc.value.text);
+          widget.sEntery.changeStart(start);
+          widget.sEntery.changeEnd(end);
+          widget.sEntery.changeType(type.value.text);
+          if (widget.newEntry != null) {
+            widget.student.stSch.addEntry(widget.sEntery);
+          }
+          if (!context.mounted) return;
+          Navigator.of(context).pushReplacement(MaterialPageRoute(
+            builder: (context) {
+              return MainPage(
+                user: widget.student,
+                day: start,
+              );
+            },
+          ));
+        },
+        child: const Text("Save"));
+  }
+}
+
+// This builds a user text input which corresponds to a controller which changes a certain
+// element of an entry stated in the label input
 class TextField extends StatelessWidget {
   const TextField(
       {super.key,
@@ -223,6 +301,7 @@ Route<TimeOfDay> pickTime(
   );
 }
 
+// Converts the 0-23 hour and minutes into human readable 12 hour clock time
 String timeDisplay(int hour, int min) {
   String minutes = min < 10 ? "0$min" : "$min";
   if (hour == 0) {
