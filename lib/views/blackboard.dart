@@ -61,7 +61,7 @@ class _BlackboardState extends State<Blackboard> {
     return Row(mainAxisAlignment: MainAxisAlignment.center, children: [
       CourseWidget(
         course: course,
-        fontSize: 14,
+        fontSize: 24,
       ),
       widget.student.courses.contains(course)
           ? Column(

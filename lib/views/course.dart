@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:studnet_calender_app/models/course.dart';
 import 'package:studnet_calender_app/models/homework.dart';
 import 'package:studnet_calender_app/views/blackboard.dart';
+import 'package:studnet_calender_app/views/editentry.dart';
 
 // main page which displays course information
 class CourseView extends StatelessWidget {
@@ -118,6 +119,20 @@ class CourseWidget extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            Center(
+              child: Text("Class Time: ", style: TextStyle(fontSize: fontSize)),
+            ),
+            Container(
+              padding: const EdgeInsets.symmetric(vertical: 5),
+              child: Text(
+                  "${timeDisplay(course.classStart.hour, course.classStart.minute)}-${timeDisplay(course.classEnd.hour, course.classEnd.minute)}",
+                  style: TextStyle(fontSize: fontSize)),
+            )
+          ],
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
             Container(
               padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 5),
               child: Text("Class days:", style: TextStyle(fontSize: fontSize)),
@@ -169,6 +184,20 @@ class HomeworkWidget extends StatelessWidget {
             Container(
               padding: const EdgeInsets.symmetric(vertical: 5),
               child: Text(readableDate(course.dueDate),
+                  style: TextStyle(fontSize: fontSize)),
+            )
+          ],
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Center(
+              child: Text("Due Time: ", style: TextStyle(fontSize: fontSize)),
+            ),
+            Container(
+              padding: const EdgeInsets.symmetric(vertical: 5),
+              child: Text(
+                  timeDisplay(course.dueDate.hour, course.dueDate.minute),
                   style: TextStyle(fontSize: fontSize)),
             )
           ],
