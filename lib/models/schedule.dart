@@ -1,4 +1,4 @@
-import 'package:studnet_calender_app/models/schedulentry.dart';
+import 'package:student_calender_app/models/schedulentry.dart';
 
 class Schedule {
   final int _schID;
@@ -21,6 +21,10 @@ class Schedule {
   Set<ScheduleEntry> get entries => _entries;
   void addEntry(ScheduleEntry entry) {
     _entries.add(entry);
+  }
+
+  void deleteEntry(ScheduleEntry entry) {
+    _entries.remove(entry);
   }
 
   void changeName(String newName) {

@@ -1,5 +1,5 @@
-import 'package:studnet_calender_app/models/course.dart';
-import 'package:studnet_calender_app/models/schedule.dart';
+import 'package:student_calender_app/models/course.dart';
+import 'package:student_calender_app/models/schedule.dart';
 
 class Student {
   final int studentId;
@@ -17,5 +17,9 @@ class Student {
       required this.courses});
   void addCourse(Course course) {
     courses.add(course);
+  }
+
+  void deleteCourse(Course course) {
+    courses.remove(course);
   }
 }
