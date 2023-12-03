@@ -32,10 +32,12 @@ class _MainPageState extends State<MainPage> {
     }
   }
 
+  // rebuilds the current page
   void reload() {
     super.setState(() {});
   }
 
+  // changes the hasWifi state (once implemented will be based on the users touch and actual wifi usuage)
   void toggleWifi() {
     setState(() {
       hasWifi = !hasWifi;

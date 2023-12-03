@@ -3,6 +3,7 @@ import 'package:studnet_calender_app/models/course.dart';
 import 'package:studnet_calender_app/models/homework.dart';
 import 'package:studnet_calender_app/views/blackboard.dart';
 
+// main page which displays course information
 class CourseView extends StatelessWidget {
   final Course course;
   const CourseView({super.key, required this.course});
@@ -26,6 +27,7 @@ class CourseView extends StatelessWidget {
   }
 }
 
+// A main page which will hold homework information
 class HomeworkView extends StatelessWidget {
   final Homework homework;
   const HomeworkView({super.key, required this.homework});
@@ -36,7 +38,7 @@ class HomeworkView extends StatelessWidget {
       appBar: AppBar(
         title: Center(
           child: Title(
-              color: Colors.black, child: Text("Course: ${homework.name}")),
+              color: Colors.black, child: Text("Homework: ${homework.name}")),
         ),
       ),
       body: Center(
@@ -46,6 +48,7 @@ class HomeworkView extends StatelessWidget {
   }
 }
 
+// builds a widget which displays course information
 class CourseWidget extends StatelessWidget {
   final Course course;
   final double fontSize;
@@ -54,7 +57,7 @@ class CourseWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      color: Colors.blue[100],
+      color: Colors.green[100],
       margin: const EdgeInsets.all(40),
       child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
         Container(
@@ -131,6 +134,7 @@ class CourseWidget extends StatelessWidget {
   }
 }
 
+// builds a widget which displays homework information
 class HomeworkWidget extends StatelessWidget {
   final Homework course;
   final double fontSize;
@@ -140,7 +144,7 @@ class HomeworkWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      color: Colors.blue[100],
+      color: Colors.red[100],
       margin: const EdgeInsets.all(40),
       child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
         Container(
@@ -174,8 +178,10 @@ class HomeworkWidget extends StatelessWidget {
   }
 }
 
+// makes the date readable in month/day/year formate
 String readableDate(DateTime day) => "${day.month}/${day.day}/${day.year}";
 
+// convers a set of ints which contain ints between 0-6 which each correspond to a day of the week
 String readableDays(Set<int> day) {
   List<String> d = [];
   for (int i in day) {

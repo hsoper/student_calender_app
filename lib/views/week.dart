@@ -90,8 +90,11 @@ class ScheduleSpaceWidget extends StatelessWidget {
   }
 
   List<Widget> dividersWithEntries(Student student, DateTime day) {
-    List<Widget> temp = [Column(children: timeDividers(120 * 24, 24, 15))];
+    List<Widget> temp = [
+      Column(children: timeDividers(120 * 24, 24, 15))
+    ]; // time dividers
     for (ScheduleEntry entry in student.stSch.entries) {
+      // schedule entries
       if (entry.start.getDayDifference(day) == 0) {
         double size = (entry.end.hour * 120 + entry.end.minute * 2) -
             (entry.start.hour * 120 + entry.start.minute * 2);
@@ -104,6 +107,7 @@ class ScheduleSpaceWidget extends StatelessWidget {
       }
     }
     for (Course course in student.courses) {
+      // course entries
       if (course.weekdays.contains(day.weekday - 1) &&
           course.start.compareTo(day) <= 0 &&
           course.end.compareTo(day) >= 0) {
@@ -117,6 +121,7 @@ class ScheduleSpaceWidget extends StatelessWidget {
         ));
       }
       for (Homework work in course.homework) {
+        // homework entries
         if (work.dueDate.compareWithoutTime(day)) {
           temp.add(CourseEntryWidget(
             entry: course,
@@ -191,6 +196,7 @@ class EntryWidget extends StatelessWidget {
   }
 }
 
+// Builds a entry widget for either a homework or course
 class CourseEntryWidget extends StatelessWidget {
   final Course entry;
   final double start;
@@ -223,10 +229,10 @@ class CourseEntryWidget extends StatelessWidget {
           child: Container(
             height: size,
             width: (MediaQuery.sizeOf(context).width - 60) / 7,
-            color: Colors.green[300],
+            color: homework == null ? Colors.green[300] : Colors.red[300],
             child: Center(
                 child: Text(
-              entry.name,
+              "${entry.name}${homework != null ? ": ${homework!.name}" : ""}",
               style: const TextStyle(
                   color: Colors.black, fontWeight: FontWeight.bold),
             )),

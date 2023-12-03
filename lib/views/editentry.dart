@@ -180,6 +180,7 @@ class _EditEntryWidgetState extends State<EditEntryWidget> {
   }
 }
 
+// Builds a button which when pressed will delete the current entry
 class DeleteButton extends StatelessWidget {
   const DeleteButton({super.key, required this.widget});
 
@@ -193,11 +194,17 @@ class DeleteButton extends StatelessWidget {
               .pushReplacement(MaterialPageRoute(builder: (context) {
             return MainPage(user: widget.student);
           }));
+          ScaffoldMessenger.of(context).clearSnackBars();
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+              content: Center(
+            child: Text("Deleted Entry: ${widget.sEntery.name}"),
+          )));
         },
         child: const Text("Delete"));
   }
 }
 
+// builds a button which when pressed will save the entry which the user is currently working on
 class SaveButton extends StatelessWidget {
   const SaveButton({
     super.key,
@@ -237,6 +244,11 @@ class SaveButton extends StatelessWidget {
               );
             },
           ));
+          ScaffoldMessenger.of(context).clearSnackBars();
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+              content: Center(
+            child: Text("Saved Entry: ${widget.sEntery.name}"),
+          )));
         },
         child: const Text("Save"));
   }
